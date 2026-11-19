@@ -1,0 +1,20 @@
+# Focusi
+
+> Focusi makes wobble stools, visual timers, and free downloadable planners that help kids with ADHD, autism, and sensory needs stay focused, regulated, and engaged at home and in the classroom.
+
+Focusi is a small kids-focus brand. Our products combine ergonomic active seating with calming sensory input, and our content library helps parents and teachers build routines, manage screen time, and support executive function.
+
+## Pages
+
+- [Free Planners](/): Downloadable PDF planners, routines, and visual schedules for kids and parents.
+- [Shop](/shop): Wobble stools and visual timer cubes designed for focus and movement.
+- [Why Focusi](/why-focusi): The story and design philosophy behind our products.
+- [Research](/research-based): The science of active seating, movement, and child focus.
+- [Blog](/blog): Articles for parents on ADHD, sensory needs, focus, and learning.
+- [Memory Game](/memory-game): A free in-browser memory game for kids.
+
+## Optional
+
+- [Refund Policy](/refund-policy): 30-day returns and EU 14-day cooling-off.
+- [Privacy Policy](/privacy-policy): How we handle your data.
+- [Terms of Service](/terms-of-service): Terms for using focusi.co.
