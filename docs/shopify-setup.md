@@ -54,9 +54,12 @@ The app reads the blog and planners through the Storefront API. Your token needs
    | File | `file` | File > **File** (not "Image") | Yes |
    | Group name | `group_name` | Single line text | No |
    | Group description | `group_description` | Multi-line text | No |
+   | Group icon | `group_icon` | Single line text (optional; same allowed values as Icon) | No |
    | Sort order | `sort_order` | Integer | No |
 
    | Icon | `icon` | Single line text (optional; if Shopify offers **Choices** under Validation, enter: `moon, backpack, clock, target, sun, calendar, heart, star, eye, file`) | No |
+
+   Group icon works like Group description: set it on the planners of a group (the first non-empty value in the group is used). If empty, the three standard groups keep their default icons (calendar, target, sun) and any other group gets the document icon.
 
    If Icon is left empty, the page picks an icon automatically from the planner title: bed/night/evening = moon, school = backpack, morning = clock, anything else = document. The Focus & Task group always uses the target icon.
 4. Set **Display name** to the Title field.
@@ -156,3 +159,24 @@ Then:
 4. Keep Lovable and Supabase running for 2 to 4 weeks after cutover as a safety net.
 5. Before turning them off, export from Supabase: the `planner_downloads` table (collected emails) and anything else you want to keep. Importing these emails into Shopify customers should only be done for people who agreed to receive marketing. Check your consent obligations before importing.
 6. After that period you can safely end the Lovable and Supabase subscriptions.
+
+---
+
+## Phase 6: Deploying and keeping focusi.co
+
+Your app is a static single-page app. Shopify stays the backend (products, cart, checkout, blog, planners, customers). The cart code already sends shoppers to checkout on the store's `myshopify.com` address, so checkout does not depend on what `focusi.co` points to. This means you host the built files on any static host and point `focusi.co` at it, exactly like Lovable does now.
+
+1. **Restore the videos.** Put the hero video files back into `public/videos/` (`hero-compressed.mp4` and `hero-poster.jpg`). They are missing from the zip and the home page needs them.
+2. **Code repository.** Push the project to a GitHub repository (`.env.local` is already ignored and must not be committed).
+3. **Create the site** on a static host (Cloudflare Pages, Netlify or Vercel; all have free plans). Connect the repository and use:
+   - Build command: `npm run build`
+   - Output folder: `dist`
+   - Environment variables (set in the host, since `.env.local` is not uploaded):
+     `VITE_SHOPIFY_STOREFRONT_TOKEN` = your new public token
+     `VITE_SHOPIFY_STORE_URL` = only if Settings > Domains in Shopify shows a primary domain other than `ec49b1-17.myshopify.com`
+   - Single-page-app routing is already configured: `public/_redirects` (Netlify, Cloudflare Pages) and `vercel.json` (Vercel).
+4. **Test on the host's temporary address** (for example `yourproject.pages.dev`): home page and video, shop, add to cart, checkout, blog, a post, free planners, an email download. Your live `focusi.co` is not affected at this point.
+5. **Lead capture requirements:** the Online Store sales channel must be active and the store must not be password protected (Online Store > Preferences), otherwise Shopify rejects the email form.
+6. **Switch the domain.** Lower the DNS TTL on `focusi.co` a day ahead. Add `focusi.co` (and `www`) as a custom domain in the new host, then change the DNS records at your domain registrar to the values the host shows. HTTPS is issued automatically. Do not add `focusi.co` to Shopify's Domains. Shopify would then try to serve it.
+7. **Rollback:** point the DNS records back to the previous Lovable values. Keep Lovable and Supabase running until you are happy (see Phase 5).
+8. **After the switch:** note that the old sitemap function (which listed blog posts from Supabase) is gone. A static host does not generate a sitemap, so `https://focusi.co/sitemap.xml` is only the static `public/sitemap.xml` file. Keep it current or tell me and I'll generate one from your Shopify blog and products at build time.
