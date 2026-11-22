@@ -13,7 +13,7 @@ import { storefrontApiRequest } from "@/lib/shopify";
 
 // Handle of the Shopify blog that holds your articles (Online Store > Blog posts > blog name).
 // New stores default to "news".
-export const BLOG_HANDLE = "news";
+export const BLOG_HANDLE = "adhd-parenting-path";
 
 // Metaobject definition type for planners (see scripts/shopify-setup.md).
 export const PLANNER_METAOBJECT_TYPE = "planner";
